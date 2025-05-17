@@ -1,24 +1,14 @@
-import React, { useState } from 'react';
-import { Heart, Eye } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addToWishList } from '../../redux/slices/wishListSlice';
-import { addToCart } from '../../redux/slices/cartSlice';
-import Popup from '../Popup';
-import type { RootState } from '../../redux/store';
+import React, { useState } from "react";
+import { Heart, Eye } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addToWishList } from "../../redux/slices/wishListSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
+import Popup from "../Popup";
+import type { RootState } from "../../redux/store";
+import type { FlashSaleProduct } from "../../types/product";
 
-interface ProductProps {
-  id: number;
-  name: string;
-  image: string;
-  currentPrice: number;
-  originalPrice: number;
-  discount: number;
-  rating: number;
-  reviews: number;
-}
-
-const Product: React.FC<ProductProps> = ({
+const Product: React.FC<FlashSaleProduct> = ({
   id,
   name,
   image,
@@ -26,7 +16,8 @@ const Product: React.FC<ProductProps> = ({
   originalPrice,
   discount,
   rating,
-  reviews
+  reviews,
+  category,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,14 +25,16 @@ const Product: React.FC<ProductProps> = ({
 
   // Wishlist popup states
   const [showWishlistPopup, setShowWishlistPopup] = useState(false);
-  const [wishlistPopupMessage, setWishlistPopupMessage] = useState('');
+  const [wishlistPopupMessage, setWishlistPopupMessage] = useState("");
   const [isAlreadyInWishlist, setIsAlreadyInWishlist] = useState(false);
 
   // Cart popup states
   const [showCartPopup, setShowCartPopup] = useState(false);
 
   const handleWishlist = () => {
-    const alreadyAdded = wishlistItems.some(item => item.id === id);
+    const alreadyAdded = wishlistItems.some((item) => item.id === id);
+    // Props se direct access
+    console.log(id, name, image, currentPrice);
 
     if (alreadyAdded) {
       setWishlistPopupMessage("Item is already in your wishlist!");
@@ -62,15 +55,29 @@ const Product: React.FC<ProductProps> = ({
       })
     );
 
-    setWishlistPopupMessage("Item added to wishlist. Do you want to view your wishlist?");
+    setWishlistPopupMessage(
+      "Item added to wishlist. Do you want to view your wishlist?"
+    );
     setIsAlreadyInWishlist(false);
     setShowWishlistPopup(true);
   };
 
   const handleWishlistConfirm = () => {
+    const product = {
+      id,
+      name,
+      image,
+      currentPrice,
+      originalPrice,
+      discount,
+      rating,
+      reviews,
+      category,
+    };
     setShowWishlistPopup(false);
     if (!isAlreadyInWishlist) {
-      navigate('/wishlist');
+      // navigate("/wishlist");
+      navigate("/wishList", { state: { product } });
     }
   };
 
@@ -79,20 +86,22 @@ const Product: React.FC<ProductProps> = ({
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart({
-      id,
-      name,
-      image,
-      price: currentPrice,
-      quantity: 1,
-    }));
+    dispatch(
+      addToCart({
+        id,
+        name,
+        image,
+        price: currentPrice,
+        quantity: 1,
+      })
+    );
 
     setShowCartPopup(true);
   };
 
   const handleCartConfirm = () => {
     setShowCartPopup(false);
-    navigate('/cart');
+    navigate("/cart");
   };
 
   const handleCartCancel = () => {
@@ -113,15 +122,19 @@ const Product: React.FC<ProductProps> = ({
           >
             <Heart
               size={18}
-              className={wishlistItems.some(item => item.id === id) ? "fill-red-500 text-red-500" : "text-gray-700"}
+              className={
+                wishlistItems.some((item) => item.id === id)
+                  ? "fill-red-500 text-red-500"
+                  : "text-gray-700"
+              }
             />
           </button>
           <button className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100">
             <Eye size={20} />
           </button>
         </div>
-        <img 
-          src={image} 
+        <img
+          src={image}
           alt={name}
           className="object-cover w-full h-48 rounded-lg"
         />
@@ -141,7 +154,10 @@ const Product: React.FC<ProductProps> = ({
         <div className="flex items-center gap-2 mt-2">
           <div className="flex">
             {[...Array(5)].map((_, i) => (
-              <span key={i} className={`text-${i < rating ? 'yellow' : 'gray'}-400`}>
+              <span
+                key={i}
+                className={`text-${i < rating ? "yellow" : "gray"}-400`}
+              >
                 ★
               </span>
             ))}
