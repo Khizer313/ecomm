@@ -12,7 +12,6 @@ export interface BestSellingProduct extends ProductBase {
   image: string;
   currentPrice: number;
   originalPrice: number;
-  
 }
 
 export interface FlashSaleProduct extends ProductBase {
@@ -48,14 +47,14 @@ export interface wishListData {
   originalPrice?: number;
   discountPercentage?: number;
   isNew?: boolean;
-  rating?: number;       // Optional
-  reviewCount?: number;  // Optional
-  category?: string;     // Optional
-  subcategory?: string;  // Optional
+  rating?: number; // Optional
+  reviewCount?: number; // Optional
+  category?: string; // Optional
+  subcategory?: string; // Optional
 }
 
 export interface recommendedData {
-  id: string;  // Change to number to match ProductBase
+  id: string; // Change to number to match ProductBase
   title: string;
   price: number;
   image: string;

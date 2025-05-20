@@ -3,7 +3,7 @@ import type { RootState } from "../redux/store";
 import React, { useState } from "react";
 import { Heart, Eye } from "lucide-react";
 import { addToWishList } from "../redux/slices/wishListSlice";
-import { addToCart } from "../redux/slices/cartSlice"; // ✅ Assumed
+import { addToCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Popup from "./Popup";
 import { bestSellingProduct } from "../data/products";

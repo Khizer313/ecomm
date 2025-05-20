@@ -4,14 +4,14 @@ import BuyNow from "../../components/explore/BuyNow";
 import Products from "../../components/explore/Products";
 import FlashSales from "../../components/flashsales/FlashSales";
 import HeroMain from "../../components/hero/HeroMain";
-import Login from "../../components/Login";
+// import Login from "../../components/Login";
 import NewArrival from "../../components/NewArrival";
 import ServiceFeatures from "../../components/services/ServiceFeatures";
-import SignUp from "../../components/SignUp";
+// import SignUp from "../../components/SignUp";
 import Wishlist from "../../components/wishList/wishList/WishList";
 import JustForYou from "../../components/wishList/justForYou/JustForYou";
-import Cart from "../../components/Cart/Cart";
-import Account from "../Account/Account";
+// import Cart from "../../components/Cart/Cart";
+// import Account from "../Account/Account";
 
 export default function Home() {
   return (
@@ -34,27 +34,26 @@ export default function Home() {
       </section>
       <section className="px-4 py-6 md:px-6 lg:px-8">
         <NewArrival />
-        <ServiceFeatures/>
+        <ServiceFeatures />
       </section>
-      <section className="px-4 py-6 md:px-6 lg:px-8">
+      {/* <section className="px-4 py-6 md:px-6 lg:px-8">
         <Login />
       </section>
       <section className="px-4 py-6 md:px-6 lg:px-8">
         <SignUp />
-      </section>
+      </section> */}
       <section className="px-4 py-6 md:px-6 lg:px-8">
-      <div className="container mx-auto px-4 py-8">
-        <Wishlist />
-        <JustForYou />
-      </div>
-      <section className="px-4 py-6 md:px-6 lg:px-8">
-        <Cart />
+        <div className="container mx-auto px-4 py-8">
+          <Wishlist />
+          <JustForYou />
+        </div>
+        {/* <section className="px-4 py-6 md:px-6 lg:px-8">
+          <Cart />
+        </section> */}
+        {/* <section className="px-4 py-6 md:px-6 lg:px-8">
+          <Account />
+        </section> */}
       </section>
-      <section className="px-4 py-6 md:px-6 lg:px-8">
-        <Account />
-      </section>
-      </section>
-      
     </main>
   );
 }
