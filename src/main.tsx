@@ -1,50 +1,53 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App';
-import Home from './pages/home/Home';
-import About from './pages/about/About';
-import { Provider } from 'react-redux';
-import { store } from './redux/store';
-import Wishlist from './components/wishList/wishList/WishList';
-import Cart from './components/Cart/Cart';
-import JustForYou from './components/wishList/justForYou/JustForYou';
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import App from "./App";
+import Home from "./pages/home/Home";
+import About from "./pages/about/About";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import Wishlist from "./components/wishList/wishList/WishList";
+import Cart from "./components/Cart/Cart";
+import JustForYou from "./components/wishList/justForYou/JustForYou";
+import ProductDetail from "./components/ProductDetail";
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />, // layout with outlet
     children: [
       {
-        path: '',
+        path: "",
         element: <Home />,
       },
       {
-        path: 'about',
+        path: "about",
         element: <About />,
       },
       {
-        path: 'wishlist',
+        path: "wishlist",
         element: <Wishlist />,
       },
       {
-        path: 'cart',
+        path: "cart",
         element: <Cart />,
       },
       {
-        path: '/recommended',
+        path: "/recommended",
         element: <JustForYou />,
+      },
+      {
+        path: "/product/:id",
+        element: <ProductDetail />,
       },
     ],
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
