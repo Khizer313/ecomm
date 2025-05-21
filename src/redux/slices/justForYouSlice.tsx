@@ -1,8 +1,8 @@
 // src/redux/slices/justForYouSlice.ts
-import { createSlice } from '@reduxjs/toolkit';
-import { recommendedProducts } from '../../data/products'; // adjust path as needed
-import type { recommendedData } from '../../types/product';
-import type { RootState } from '../store'; 
+import { createSlice } from "@reduxjs/toolkit";
+import { recommendedProducts } from "../../data/products";
+import type { recommendedData } from "../../types/product";
+import type { RootState } from "../store";
 
 interface JustForYouState {
   products: recommendedData[];
@@ -13,10 +13,10 @@ const initialState: JustForYouState = {
 };
 
 const justForYouSlice = createSlice({
-  name: 'justForYou',
+  name: "justForYou",
   initialState,
   reducers: {
-    // if needed later: addToWishlist, removeFromWishlist, etc.
+    // may be i needed it later: addToWishlist, removeFromWishlist, etc.
   },
 });
 

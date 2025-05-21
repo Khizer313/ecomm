@@ -47,14 +47,14 @@ export interface wishListData {
   originalPrice?: number;
   discountPercentage?: number;
   isNew?: boolean;
-  rating?: number; // Optional
-  reviewCount?: number; // Optional
-  category?: string; // Optional
-  subcategory?: string; // Optional
+  rating?: number;
+  reviewCount?: number;
+  category?: string;
+  subcategory?: string;
 }
 
 export interface recommendedData {
-  id: string; // Change to number to match ProductBase
+  id: string;
   title: string;
   price: number;
   image: string;

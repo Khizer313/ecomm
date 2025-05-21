@@ -14,7 +14,7 @@ import ProductDetail from "./components/ProductDetail";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // layout with outlet
+    element: <App />, // this is my layout with outlet
     children: [
       {
         path: "",

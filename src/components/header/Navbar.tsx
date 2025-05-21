@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { Search, Heart, ShoppingCart, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,7 +23,17 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const suggestionBoxRef = useRef<HTMLDivElement>(null);
 
-  // Close suggestions on outside click
+  // Here I combined all product sources once
+  const allProducts = useMemo(() => {
+    return [
+      ...products,
+      ...flashSaleProduct,
+      ...bestSellingProduct,
+      ...recommendedProducts,
+    ];
+  }, []);
+
+  // Now i closed suggestion list when clicked outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -31,28 +47,21 @@ const Navbar: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleWishlist = () => {
-    setWishlistActive(!wishlistActive);
+  const handleWishlist = useCallback(() => {
+    setWishlistActive((prev) => !prev);
     navigate("/wishlist");
-  };
+  }, [navigate]);
 
-  const handleCart = () => {
-    setCartActive(!cartActive);
+  const handleCart = useCallback(() => {
+    setCartActive((prev) => !prev);
     navigate("/cart");
-  };
+  }, [navigate]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchInput(query);
 
     if (query.trim() !== "") {
-      const allProducts = [
-        ...products,
-        ...flashSaleProduct,
-        ...bestSellingProduct,
-        ...recommendedProducts,
-      ];
-
       const lowerQuery = query.toLowerCase();
 
       const filtered = allProducts.filter((product) => {
@@ -76,17 +85,20 @@ const Navbar: React.FC = () => {
         return aStarts - bStarts;
       });
 
-      setFilteredSuggestions(sorted);
+      setFilteredSuggestions(sorted.slice(0, 10));
     } else {
       setFilteredSuggestions([]);
     }
   };
 
-  const handleSuggestionClick = (id: number | string) => {
-    setSearchInput("");
-    setFilteredSuggestions([]);
-    navigate(`/product/${id}`);
-  };
+  const handleSuggestion = useCallback(
+    (id: number | string) => {
+      setSearchInput("");
+      setFilteredSuggestions([]);
+      navigate(`/product/${id}`);
+    },
+    [navigate]
+  );
 
   const renderSearchInput = (isMobile = false) => (
     <div
@@ -105,14 +117,15 @@ const Navbar: React.FC = () => {
         }`}
       />
       <Search className="absolute text-gray-500 right-3" size={20} />
+
       {filteredSuggestions.length > 0 && (
         <div className="absolute z-10 w-full bg-white border border-gray-200 top-full mt-1 rounded-md shadow-md max-h-48 overflow-auto">
           <ul>
-            {filteredSuggestions.map((product) => (
+            {filteredSuggestions.slice(0, 10).map((product) => (
               <li
                 key={product.id}
                 className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                onClick={() => handleSuggestionClick(product.id)}
+                onClick={() => handleSuggestion(product.id)}
               >
                 {product.name || product.title}
               </li>
@@ -157,9 +170,7 @@ const Navbar: React.FC = () => {
           <button
             onClick={handleWishlist}
             className="p-2 bg-white rounded-full shadow-sm hover:bg-gray-100 transition-colors"
-            aria-label={
-              wishlistActive ? "Remove from wishlist" : "Add to wishlist"
-            }
+            aria-label="Wishlist"
           >
             <Heart
               size={18}
@@ -169,7 +180,7 @@ const Navbar: React.FC = () => {
             />
           </button>
 
-          <button onClick={handleCart} className="p-2" aria-label="Go to cart">
+          <button onClick={handleCart} className="p-2" aria-label="Cart">
             <ShoppingCart
               size={24}
               className={cartActive ? "text-green-500" : "text-gray-700"}
